@@ -1,0 +1,10 @@
+﻿global using System.Security.Claims;
+global using System.Security.Cryptography;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Http.HttpResults;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.IdentityModel.Tokens;
+global using Scalar.AspNetCore;
+global using SmartHome.Api.Dtos;
+global using SmartHome.Api.HostApplicationBuilderExtensions;

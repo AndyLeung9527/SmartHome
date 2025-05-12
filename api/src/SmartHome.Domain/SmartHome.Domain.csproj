@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SeedWork\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\SeedWork\Entity.cs" Link="SeedWork\Entity.cs" />
+	<Compile Include="..\Shared\SeedWork\IAggregateRoot.cs" Link="SeedWork\IAggregateRoot.cs" />
+	<Compile Include="..\Shared\SeedWork\IRepository.cs" Link="SeedWork\IRepository.cs" />
+	<Compile Include="..\Shared\SeedWork\IUnitOfWork.cs" Link="SeedWork\IUnitOfWork.cs" />
+  </ItemGroup>
+	
+</Project>

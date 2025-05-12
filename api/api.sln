@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.Api", "src\SmartHome.Api\SmartHome.Api.csproj", "{0EDC712B-7893-497F-A2C9-A54D5382A7D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.Domain", "src\SmartHome.Domain\SmartHome.Domain.csproj", "{496B9D20-0B40-4FA6-B771-FDF812EBC51D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{12933E60-FF7C-4874-B760-CFB36CFB8F8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Api", "src\Identity.Api\Identity.Api.csproj", "{1FFD31A2-074B-48C0-9A72-894E92385492}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailUtility", "src\MailUtility\MailUtility.csproj", "{97A896E8-1675-4364-AD7A-EF9ADEC72618}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EDC712B-7893-497F-A2C9-A54D5382A7D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EDC712B-7893-497F-A2C9-A54D5382A7D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EDC712B-7893-497F-A2C9-A54D5382A7D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EDC712B-7893-497F-A2C9-A54D5382A7D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{496B9D20-0B40-4FA6-B771-FDF812EBC51D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{496B9D20-0B40-4FA6-B771-FDF812EBC51D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{496B9D20-0B40-4FA6-B771-FDF812EBC51D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{496B9D20-0B40-4FA6-B771-FDF812EBC51D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FFD31A2-074B-48C0-9A72-894E92385492}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FFD31A2-074B-48C0-9A72-894E92385492}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FFD31A2-074B-48C0-9A72-894E92385492}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FFD31A2-074B-48C0-9A72-894E92385492}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A896E8-1675-4364-AD7A-EF9ADEC72618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A896E8-1675-4364-AD7A-EF9ADEC72618}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A896E8-1675-4364-AD7A-EF9ADEC72618}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A896E8-1675-4364-AD7A-EF9ADEC72618}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0EDC712B-7893-497F-A2C9-A54D5382A7D1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{496B9D20-0B40-4FA6-B771-FDF812EBC51D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{1FFD31A2-074B-48C0-9A72-894E92385492} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{97A896E8-1675-4364-AD7A-EF9ADEC72618} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA87DCB5-9046-45E1-B563-3285466D79DA}
+	EndGlobalSection
+EndGlobal
