@@ -1,3 +1,5 @@
+using IdGen.DependencyInjection;
+
 namespace SmartHome.Api;
 
 public class Program
@@ -8,9 +10,15 @@ public class Program
 
         builder.AddSmartHomeAuthentication();
         builder.AllowAllCors();
-
-        builder.Services.AddOpenApi();
-        builder.Services.AddControllers();
+        builder.AddEventBus();
+        builder.Services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
+        });
+        builder.Services.AddIdGen(builder.Configuration.GetSection("App").GetValue<int>("WorkerId"));
+        builder.Services.AddSignalR();
+        builder.AddWebApiVersioning();
+        builder.AddSmartHomeDbContext();
 
         var app = builder.Build();
 
@@ -20,7 +28,10 @@ public class Program
         app.UseAuthorization();
         app.MapOpenApi();
         app.MapScalarApiReference();
-        app.MapControllers();
+        app.MapHub<BroadcastHub>("/broadcastHub");
+
+        app.MapUserApiV1();
+        app.MapBroadcastApiV1();
 
         app.Run();
     }

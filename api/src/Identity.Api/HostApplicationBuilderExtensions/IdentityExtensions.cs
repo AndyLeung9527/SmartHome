@@ -18,6 +18,9 @@ public static class IdentityExtensions
             options.TokenLifespan = TimeSpan.FromHours(2);
         });
 
+        builder.Services.AddMigration<ApplicationDbContext, RolesSeed>();
+        builder.Services.AddMigration<ApplicationDbContext, UsersSeed>();
+
         return builder;
     }
 }

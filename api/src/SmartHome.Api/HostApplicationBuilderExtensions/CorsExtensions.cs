@@ -10,9 +10,10 @@ public static class CorsExtensions
         {
             options.AddPolicy(AllowAllCorsPolicyName, policy =>
             {
-                policy.AllowAnyOrigin()
+                policy.SetIsOriginAllowed(_ => true)
                       .AllowAnyMethod()
-                      .AllowAnyHeader();
+                      .AllowAnyHeader()
+                      .AllowCredentials();
             });
         });
 

@@ -1,6 +1,6 @@
 ﻿namespace Identity.Api.Models;
 
-public class User : IdentityUser<Guid>
+public class User : IdentityUser<long>
 {
     public DateTimeOffset DateOfBirth { get; set; }
 
@@ -10,8 +10,9 @@ public class User : IdentityUser<Guid>
 
     public DateTimeOffset? LastLoginAt { get; set; }
 
-    public User(string name, string email, DateTimeOffset dateOfBirth) : base(name)
+    public User(long id, string name, string email, DateTimeOffset dateOfBirth) : base(name)
     {
+        Id = id;
         Email = email;
         DateOfBirth = dateOfBirth;
         CreatedAt = DateTimeOffset.Now;

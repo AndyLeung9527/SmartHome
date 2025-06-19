@@ -43,5 +43,16 @@ export interface resetPasswordDtoInter {
 }
 
 export interface userInfoResponseInter {
-    name: string
+    id: string,
+    name: string,
+    email: string,
+    dateOfBirth: Date,
+    roles: string[]
+}
+
+export interface broadcastResponseInter {
+    publishUserName: string,
+    message: string,
+    createdAt: Date,
+    isRead: boolean
 }

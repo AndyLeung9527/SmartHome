@@ -1,13 +1,39 @@
 ﻿namespace Shared;
 
-public abstract class Entity<TKey> where TKey : struct, IEquatable<TKey>
+public abstract class Entity
+{
+    private List<INotification>? _domainEvents;
+
+    public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly() ?? ReadOnlyCollection<INotification>.Empty;
+
+    public void AddDomainEvent(INotification notification)
+    {
+        _domainEvents = _domainEvents ?? new List<INotification>();
+        _domainEvents.Add(notification);
+    }
+
+    public void RemoveDomainEvent(INotification notification)
+    {
+        _domainEvents?.Remove(notification);
+    }
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents?.Clear();
+        _domainEvents = null;
+    }
+}
+
+public abstract class Entity<TKey> : Entity where TKey : struct, IEquatable<TKey>
 {
     private int? _requestedHashCode;
-    private List<INotification>? _domainEvents;
 
     public virtual TKey Id { get; protected set; }
 
-    public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly() ?? ReadOnlyCollection<INotification>.Empty;
+    public Entity(TKey id)
+    {
+        Id = id;
+    }
 
     public override int GetHashCode()
     {
@@ -70,22 +96,5 @@ public abstract class Entity<TKey> where TKey : struct, IEquatable<TKey>
     public bool IsTransient()
     {
         return Id.Equals(default);
-    }
-
-    public void AddDomainEvent(INotification notification)
-    {
-        _domainEvents = _domainEvents ?? new List<INotification>();
-        _domainEvents.Add(notification);
-    }
-
-    public void RemoveDomainEvent(INotification notification)
-    {
-        _domainEvents?.Remove(notification);
-    }
-
-    public void ClearDomainEvents()
-    {
-        _domainEvents?.Clear();
-        _domainEvents = null;
     }
 }

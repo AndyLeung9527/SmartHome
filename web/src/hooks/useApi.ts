@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useRouter } from 'vue-router'
 import { useUserStore } from "@/store/useUserStore"
-import { type userInfoResponseInter } from "@/types"
+import { type userInfoResponseInter, type broadcastResponseInter } from "@/types"
 import useAuthentication from "./useAuthentication"
 
 export default function () {
@@ -48,9 +48,33 @@ export default function () {
     })
 
     async function userInfo(): Promise<userInfoResponseInter> {
-        var { data: { name } } = await apiAxios.get('/User/Info')
-        return { name }
+        let { data: { id, name, email, dateOfBirth, roles } } = await apiAxios.get('/api/v1/user/info')
+        var dateOfBirthDate = new Date(0)
+        if (!isNaN(Date.parse(dateOfBirth))) {
+            dateOfBirthDate = new Date(dateOfBirth)
+        }
+        return { id, name, email, dateOfBirth, roles }
     }
 
-    return { userInfo }
+    async function getBroadcasts(): Promise<broadcastResponseInter[]> {
+        let { data } = await apiAxios.get('/api/v1/broadcast')
+        return data.map((item: any) => {
+            var createdAt = new Date(0)
+            if (!isNaN(Date.parse(item.createdAt))) {
+                createdAt = new Date(item.createdAt)
+            }
+            return {
+                publishUserName: item.publishUserName,
+                message: item.message,
+                createdAt: createdAt,
+                isRead: item.isRead
+            }
+        })
+    }
+
+    async function broadcast(message: string): Promise<void> {
+        await apiAxios.post('/api/v1/broadcast', { message })
+    }
+
+    return { apiDomain, userInfo, getBroadcasts, broadcast }
 }

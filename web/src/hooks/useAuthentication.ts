@@ -7,12 +7,12 @@ export default function () {
     const audience = 'smart_home'
     const emailQueryParam = 'email'
     const tokenQueryParam = 'token'
-    const registerPath = '/Account/Register'
-    const authenticationPath = '/Account/JwtToken'
-    const refreshAccessTokenPath = '/Account/RefreshAccessToken'
-    const forgotPasswordTokenPath = '/Account/ForgotPasswordToken'
-    const forgotPasswordCallbackPath = '/resetPassword'
-    const resetPasswordPath = '/Account/ResetPassword'
+    const registerPath = '/api/v1/Account/Register'
+    const authenticationPath = '/api/v1/Account/JwtToken'
+    const refreshAccessTokenPath = '/api/v1/Account/RefreshAccessToken'
+    const forgotPasswordTokenPath = '/api/v1/Account/ForgotPasswordToken'
+    const forgotPasswordCallbackPath = '/api/v1/resetPassword'
+    const resetPasswordPath = '/api/v1/Account/ResetPassword'
 
     async function register(dto: registerDtoInter): Promise<void> {
         await axios.post(`${authDomain}${registerPath}`, dto)

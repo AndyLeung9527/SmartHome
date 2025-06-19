@@ -1,11 +1,12 @@
-﻿namespace Identity.Api.Controllers;
+﻿namespace Identity.Api.Controllers.V1;
 
 /// <summary>
 /// 账户管理
 /// </summary>
-[Route("[controller]/[action]")]
+[ApiVersion(1)]
 [ApiController]
-public class AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RedisService redisService, RsaKeyService rsaKeyService, IOptionsSnapshot<IdentityOptions> identityOptions, IOptionsSnapshot<AppOptions> appOptions, IOptionsSnapshot<JwtOptions> jwtOtions) : ControllerBase
+[Route("api/v{apiVersion:apiVersion}/[controller]/[action]")]
+public class AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RedisService redisService, RsaKeyService rsaKeyService, IOptionsSnapshot<IdentityOptions> identityOptions, IOptionsSnapshot<AppOptions> appOptions, IOptionsSnapshot<JwtOptions> jwtOtions, IdGenerator idGenerator) : ControllerBase
 {
     /// <summary>
     /// 注册
@@ -13,16 +14,22 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
     [HttpPost]
     public async Task<Results<Ok, BadRequest<string>>> Register([FromBody] RegisterDto dto)
     {
-        var user = new User(dto.Name, dto.Email, dto.DateOfBirth);
-        var result = await userManager.CreateAsync(user, dto.Password);
-        if (!result.Succeeded)
+        var user = new User(idGenerator.CreateId(), dto.Name, dto.Email, dto.DateOfBirth);
+        var createResult = await userManager.CreateAsync(user, dto.Password);
+        if (!createResult.Succeeded)
         {
-            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
+            return TypedResults.BadRequest(errors);
+        }
+        var addRoleResult = await userManager.AddToRoleAsync(user, RoleConsts.GuestRoleName);
+        if (!addRoleResult.Succeeded)
+        {
+            var errors = string.Join(", ", addRoleResult.Errors.Select(e => e.Description));
             return TypedResults.BadRequest(errors);
         }
 
         var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-        var url = $"{appOptions.Value.Domain}/Account/ConfirmEmail?email={user.Email}&token={HttpUtility.UrlEncode(token)}";
+        var url = $"{appOptions.Value.Domain}/api/v1/Account/ConfirmEmail?email={user.Email}&token={HttpUtility.UrlEncode(token)}";
         var body = $"""
             <h1>欢迎注册</h1>
             <p>{user.UserName}：请点击下面的链接确认您的邮箱地址：</p>
@@ -78,8 +85,9 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
                 return TypedResults.BadRequest($"请先确认邮箱：{user.Email}");
             }
 
-            var accessToken = GenJwtToken(user, jwtOtions.Value.Issuer, dto.Audience, TimeSpan.FromMinutes(jwtOtions.Value.AccessExpirationMinutes));
-            var refreshToken = GenJwtToken(user, jwtOtions.Value.Issuer, dto.Audience, TimeSpan.FromMinutes(jwtOtions.Value.RefreshExpirationMinutes));
+            var roles = await userManager.GetRolesAsync(user);
+            var accessToken = GenJwtToken(user, roles, jwtOtions.Value.Issuer, dto.Audience, TimeSpan.FromMinutes(jwtOtions.Value.AccessExpirationMinutes));
+            var refreshToken = GenJwtToken(user, roles, jwtOtions.Value.Issuer, dto.Audience, TimeSpan.FromMinutes(jwtOtions.Value.RefreshExpirationMinutes));
             await redisService.DefaultDatabase.StringSetAsync(RedisKeys.Wrap(user.Email!), refreshToken, TimeSpan.FromMinutes(jwtOtions.Value.RefreshExpirationMinutes));
             return TypedResults.Ok(new JwtTokenResponse(user.UserName!, accessToken, refreshToken));
         }
@@ -135,8 +143,9 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
             return TypedResults.BadRequest("刷新令牌不匹配");
         }
 
+        var roles = await userManager.GetRolesAsync(user);
         var audience = payload.Claims.FirstOrDefault(o => o.Type == JwtRegisteredClaimNames.Aud)?.Value ?? string.Empty;
-        var accessToken = GenJwtToken(user, jwtOtions.Value.Issuer, audience, TimeSpan.FromMinutes(jwtOtions.Value.AccessExpirationMinutes));
+        var accessToken = GenJwtToken(user, roles, jwtOtions.Value.Issuer, audience, TimeSpan.FromMinutes(jwtOtions.Value.AccessExpirationMinutes));
 
         return TypedResults.Ok(new RefreshAccessTokenResponse(accessToken));
     }
@@ -188,7 +197,7 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
         return TypedResults.Ok();
     }
 
-    private string GenJwtToken(User user, string issuer, string audience, TimeSpan expire)
+    private string GenJwtToken(User user, IEnumerable<string> roles, string issuer, string audience, TimeSpan expire)
     {
         var claims = new List<Claim>
         {
@@ -197,6 +206,11 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
             new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
             new Claim(ClaimTypes.DateOfBirth, user.DateOfBirth.ToString())
         };
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
         var key = new RsaSecurityKey(rsaKeyService.PrivateKeyParam);
         var creds = new SigningCredentials(key, SecurityAlgorithms.RsaSha256);
         var token = new JwtSecurityToken(

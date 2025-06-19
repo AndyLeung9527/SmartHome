@@ -74,5 +74,18 @@ export const useUserStore = defineStore('user', () => {
         localStorage.removeItem(refreshTokenKey)
     }
 
+    // let broadcasts = reactive<broadcastResponseInter[]>([])
+    // let achivedBroadcasts = false
+
+    // async function getBroadcasts(): Promise<broadcastResponseInter[]> {
+    //     if (achivedBroadcasts) {
+    //         return broadcasts
+    //     }
+    //     let { getBroadcasts } = useApi()
+    //     broadcasts = await getBroadcasts()
+    //     achivedBroadcasts = true
+    //     return broadcasts
+    // }
+
     return { isLoggedIn, login, getName, getAccessToken, getRefreshToken, setAccessToken, logout }
 })

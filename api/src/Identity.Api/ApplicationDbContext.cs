@@ -2,9 +2,9 @@
 
 namespace Identity.Api;
 
-public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
+public class ApplicationDbContext : IdentityDbContext<User, Role, long>
 {
-    public ApplicationDbContext(DbContextOptions options) : base(options)
+    public ApplicationDbContext(DbContextOptions options, IdGenerator idGenerator) : base(options)
     {
     }
 

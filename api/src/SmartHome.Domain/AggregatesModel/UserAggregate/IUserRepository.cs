@@ -6,7 +6,9 @@ public interface IUserRepository : IRepository<User>
 
     void Update(User user);
 
-    Task<User?> FindByNameAsync(string name);
+    Task<User?> FindByIdAsync(long id, CancellationToken cancellationToken = default);
 
-    Task<User?> FindByEmailAsync(string email);
+    Task<User?> FindByNameAsync(string name, CancellationToken cancellationToken = default);
+
+    Task<User?> FindByEmailAsync(string email, CancellationToken cancellationToken = default);
 }
