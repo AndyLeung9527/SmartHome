@@ -7,7 +7,7 @@ public static class RoleConsts
 public static class UserConsts
 {
     public const string AdministratorUserName = "admin";
-    public const string AdministratorPasswordConfigKey = "Seed:Admin:Password";
+    public const string AdministratorPasswordConfigKey = "App:AdminPassword";
     public const string AdministratorEmail = "407833635@163.com";
     public static DateTimeOffset AdministratorDateOfBirth = new(new(1994, 9, 16));
 }

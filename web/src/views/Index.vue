@@ -37,7 +37,6 @@ let broadcastInfo = reactive({
     },
     showFormButton: false
 })
-
 let broadcastFormInfo = reactive({
     broadcastFormVisible: false,
     loading: false,
@@ -271,14 +270,14 @@ const handleCommand = (command: string | number | object) => {
     </el-container>
 
     <el-dialog v-model="broadcastInfo.broadcastTableVisible" title="公告" width="800">
-        <el-table stripe :data="broadcastInfo.broadcastGrip" :row-class-name="broadcastInfo.broadcastGripRowClassName"
+        <el-table :data="broadcastInfo.broadcastGrip" :row-class-name="broadcastInfo.broadcastGripRowClassName"
             height="400">
             <el-table-column property="createdAt" label="发布时间" width="120" />
             <el-table-column property="message" label="内容" width="500" />
             <el-table-column property="publishUserName" label="发布者" width="120" />
         </el-table>
         <div v-if="broadcastInfo.showFormButton">
-            <el-button type="private" @click="broadcastFormShow"> 发布 </el-button>
+            <el-button type="primary" @click="broadcastFormShow"> 发布 </el-button>
         </div>
     </el-dialog>
 
@@ -365,7 +364,9 @@ const handleCommand = (command: string | number | object) => {
         }
     }
 }
+</style>
 
+<style>
 .el-table .warning-row {
     --el-table-tr-bg-color: var(--el-color-warning-light-9);
 }

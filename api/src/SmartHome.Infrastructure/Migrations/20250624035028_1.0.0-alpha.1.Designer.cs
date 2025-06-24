@@ -12,7 +12,7 @@ using SmartHome.Infrastructure;
 namespace SmartHome.Infrastructure.Migrations
 {
     [DbContext(typeof(SmartHomeContext))]
-    [Migration("20250619025152_1.0.0-alpha.1")]
+    [Migration("20250624035028_1.0.0-alpha.1")]
     partial class _100alpha1
     {
         /// <inheritdoc />
@@ -55,6 +55,8 @@ namespace SmartHome.Infrastructure.Migrations
                         .HasComment("是否有效");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
 
                     b.HasIndex("UserId");
 

@@ -33,6 +33,6 @@ public class BroadcastRepository : IBroadcastRepository
 
     public Task<List<Broadcast>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return _smartHomeContext.Broadcasts.Where(o => o.Valid && o.ExpirationDate > DateTimeOffset.Now).ToListAsync(cancellationToken);
+        return _smartHomeContext.Broadcasts.Where(o => o.Valid && o.ExpirationDate > DateTimeOffset.Now).OrderByDescending(o => o.CreatedAt).ToListAsync(cancellationToken);
     }
 }

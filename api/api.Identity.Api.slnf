@@ -1,0 +1,9 @@
+{
+  "solution": {
+    "path": "api.sln",
+    "projects": [
+      "src\\Identity.Api\\Identity.Api.csproj",
+      "src\\MailUtility\\MailUtility.csproj"
+    ]
+  }
+}

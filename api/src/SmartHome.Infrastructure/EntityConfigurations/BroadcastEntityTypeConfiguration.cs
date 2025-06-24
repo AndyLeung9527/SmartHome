@@ -30,6 +30,7 @@ public class BroadcastEntityTypeConfiguration : IEntityTypeConfiguration<Broadca
             .IsRequired();
 
         broadcastConfiguration.HasIndex(o => o.UserId);
+        broadcastConfiguration.HasIndex(o => o.CreatedAt);
         broadcastConfiguration.HasIndex(o => new { o.Valid, o.ExpirationDate });
     }
 }

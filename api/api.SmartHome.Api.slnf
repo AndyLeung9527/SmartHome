@@ -1,0 +1,12 @@
+{
+  "solution": {
+    "path": "api.sln",
+    "projects": [
+      "src\\EventBusRabbitMQ\\EventBusRabbitMQ.csproj",
+      "src\\EventBus\\EventBus.csproj",
+      "src\\SmartHome.Api\\SmartHome.Api.csproj",
+      "src\\SmartHome.Domain\\SmartHome.Domain.csproj",
+      "src\\SmartHome.Infrastructure\\SmartHome.Infrastructure.csproj"
+    ]
+  }
+}

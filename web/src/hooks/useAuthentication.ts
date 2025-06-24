@@ -2,7 +2,7 @@ import axios from "axios"
 import type { authenticationDtoInter, authenticationExtendDtoInter, authenticationResponseInter, forgotPasswordTokenDtoInter, forgotPasswordTokenExtendDtoInter, refreshAccessTokenResponseInter, registerDtoInter, resetPasswordDtoInter } from "@/types"
 
 export default function () {
-    const authDomain = 'https://localhost:5151'
+    const authDomain = 'http://localhost:5151'
     const callbackDomain = 'http://localhost:5173'
     const audience = 'smart_home'
     const emailQueryParam = 'email'

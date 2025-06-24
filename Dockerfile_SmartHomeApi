@@ -1,0 +1,34 @@
+# https://hub.docker.com/_/microsoft-dotnet
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+ARG SOLUTION_NAME=api.SmartHome.Api.slnf
+WORKDIR /project
+
+# copy and restore
+COPY api/*.sln .
+COPY api/${SOLUTION_NAME} .
+COPY api/src/EventBus/*.csproj ./src/EventBus/
+COPY api/src/EventBusRabbitMQ/*.csproj ./src/EventBusRabbitMQ/
+COPY api/src/SmartHome.Api/*.csproj ./src/SmartHome.Api/
+COPY api/src/SmartHome.Domain/*.csproj ./src/SmartHome.Domain/
+COPY api/src/SmartHome.Infrastructure/*.csproj ./src/SmartHome.Infrastructure/
+RUN dotnet restore ${SOLUTION_NAME}
+
+# copy and publish
+COPY api/src/EventBus ./src/EventBus/
+COPY api/src/EventBusRabbitMQ ./src/EventBusRabbitMQ/
+COPY api/src/SmartHome.Api ./src/SmartHome.Api/
+COPY api/src/SmartHome.Domain ./src/SmartHome.Domain/
+COPY api/src/SmartHome.Infrastructure ./src/SmartHome.Infrastructure/
+COPY api/src/Shared ./src/Shared/
+WORKDIR /project/src/SmartHome.Api
+RUN dotnet publish -c Release -o /app --no-restore
+
+# final image
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
+# configure ENV ASPNETCORE_URLS=http://+:5050 if use WebHost.CreateDefaultBuilder()
+ENV ASPNETCORE_HTTP_PORTS=5050
+LABEL author=LWB
+WORKDIR /app
+COPY --from=build /app ./
+EXPOSE 5050
+ENTRYPOINT ["dotnet", "SmartHome.Api.dll"]

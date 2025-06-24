@@ -48,6 +48,11 @@ namespace SmartHome.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_broadcasts_CreatedAt",
+                table: "broadcasts",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_broadcasts_UserId",
                 table: "broadcasts",
                 column: "UserId");

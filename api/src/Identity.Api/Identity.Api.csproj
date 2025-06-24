@@ -4,13 +4,26 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UserSecretsId>86a5fbeb-bb11-4967-af89-4b027bd7b00e</UserSecretsId>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="private.pem" />
+	  <None Remove="public.pem" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Include="..\Shared\ActivityExtensions.cs" Link="Extensions\ActivityExtensions.cs" />
 		<Compile Include="..\Shared\MigrateDbContextExtensions.cs" Link="Extensions\MigrateDbContextExtensions.cs" />
 		<Compile Include="..\Shared\Consts.cs" Link="Extensions\Consts.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="private.pem">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="public.pem">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>

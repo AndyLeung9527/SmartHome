@@ -53,6 +53,8 @@ namespace SmartHome.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedAt");
+
                     b.HasIndex("UserId");
 
                     b.HasIndex("Valid", "ExpirationDate");

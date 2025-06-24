@@ -7,7 +7,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="public.pem" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Include="..\Shared\Consts.cs" Link="Extensions\Consts.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="public.pem">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>

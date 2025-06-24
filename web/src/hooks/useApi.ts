@@ -5,7 +5,7 @@ import { type userInfoResponseInter, type broadcastResponseInter } from "@/types
 import useAuthentication from "./useAuthentication"
 
 export default function () {
-    const apiDomain = 'https://localhost:5050'
+    const apiDomain = 'http://localhost:5050'
     const apiAxios = axios.create({
         baseURL: apiDomain,
         timeout: 10000

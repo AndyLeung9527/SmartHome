@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/DotNetBenchmark/BenchmarkDotNet.Artifacts/
+**/*.log
+**/.vs/
+**/.vscode/
+**/.git/
+
+**/dist/
+**/node_modules/
