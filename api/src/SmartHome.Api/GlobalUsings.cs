@@ -1,8 +1,8 @@
 ﻿global using Asp.Versioning;
 global using Asp.Versioning.ApiExplorer;
-global using EventBus.Abstractions;
 global using EventBusRabbitMQ;
 global using IdGen;
+global using IdGen.DependencyInjection;
 global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Http.HttpResults;

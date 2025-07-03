@@ -2,8 +2,8 @@ import axios from "axios"
 import type { authenticationDtoInter, authenticationExtendDtoInter, authenticationResponseInter, forgotPasswordTokenDtoInter, forgotPasswordTokenExtendDtoInter, refreshAccessTokenResponseInter, registerDtoInter, resetPasswordDtoInter } from "@/types"
 
 export default function () {
-    const authDomain = 'http://localhost:5151'
-    const callbackDomain = 'http://localhost:5173'
+    const authDomain = import.meta.env.VITE_AUTH_DOMAIN as string
+    const callbackDomain = import.meta.env.VITE_WEB_DOMAIN as string
     const audience = 'smart_home'
     const emailQueryParam = 'email'
     const tokenQueryParam = 'token'

@@ -1,5 +1,3 @@
-using IdGen.DependencyInjection;
-
 namespace SmartHome.Api;
 
 public class Program
