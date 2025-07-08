@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import Index from "@/views/Index.vue"
 import Register from "@/views/Register.vue"
 import Login from '@/views/Login.vue'
+import ConfirmEmail from "@/views/ConfirmEmail.vue"
 import ForgotPassword from "@/views/ForgotPassword.vue"
 import ResetPassword from "@/views/ResetPassword.vue"
 import Message from "@/views/Message.vue"
@@ -16,6 +17,13 @@ const router = createRouter({
         {
             path: '/register',
             component: Register
+        },
+        {
+            path: '/confirmemail',
+            component: ConfirmEmail,
+            props(route) {
+                return route.query
+            }
         },
         {
             path: '/login',

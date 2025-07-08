@@ -12,6 +12,7 @@ import {
 import type { broadcastResponseInter } from '@/types'
 import { reactive } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { fi } from 'element-plus/es/locales.mjs'
 
 interface BroadcastFormInter {
     message: string
@@ -87,6 +88,7 @@ const broadcastFormSubmit = async (formEl: FormInstance | undefined) => {
     })
 }
 
+const loading = ref(true)
 onMounted(async () => {
     if (!isLoggedIn()) {
         router.replace('/login')
@@ -110,6 +112,8 @@ onMounted(async () => {
         logout()
         router.replace('/login')
         return
+    } finally {
+        loading.value = false
     }
 
     try {
@@ -166,137 +170,142 @@ const handleCommand = (command: string | number | object) => {
 </script>
 
 <template>
-    <el-container class="home-container">
-        <!-- 左侧导航 -->
-        <el-aside width="200px" class="sidebar">
-            <div class="logo">智能家庭中心</div>
-            <el-menu active-text-color="#409EFF" background-color="#304156" class="vertical-menu" default-active="1"
-                text-color="#bfcbd9">
-                <el-menu-item index="1">
-                    <el-icon>
-                        <House />
-                    </el-icon>
-                    <span>首页概览</span>
-                </el-menu-item>
-                <el-menu-item index="2">
-                    <el-icon>
-                        <Folder />
-                    </el-icon>
-                    <span>文件管理</span>
-                </el-menu-item>
-                <el-menu-item index="3">
-                    <el-icon>
-                        <VideoCamera />
-                    </el-icon>
-                    <span>媒体库</span>
-                </el-menu-item>
-                <el-menu-item index="4">
-                    <el-icon>
-                        <Upload />
-                    </el-icon>
-                    <span>备份中心</span>
-                </el-menu-item>
-                <el-menu-item index="5">
-                    <el-icon>
-                        <Setting />
-                    </el-icon>
-                    <span>系统设置</span>
-                </el-menu-item>
-            </el-menu>
-        </el-aside>
-
-        <el-container>
-            <!-- 头部 -->
-            <el-header class="header">
-                <div class="header-nav">
-                    <el-dropdown @command="handleCommand">
-                        <span class="el-dropdown-link">
-                            <el-avatar :size="30" :src="avatar" />
-                            <span class="username">{{ name }}</span>
-                            <el-icon class="el-icon--right"><arrow-down /></el-icon>
-                        </span>
-                        <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item command="userCenter">个人中心</el-dropdown-item>
-                                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-                            </el-dropdown-menu>
-                        </template>
-                    </el-dropdown>
-                </div>
-                <div class="header-nav">
-                    <el-badge :value="broadcastInfo.broadcastUnreadCount" class="item" type="primary">
-                        <el-icon @click="broadcastInfoShow">
-                            <Message />
+    <div v-if="loading">
+        <span>正在登录，请稍候...</span>
+    </div>
+    <div v-else>
+        <el-container class="home-container">
+            <!-- 左侧导航 -->
+            <el-aside width="200px" class="sidebar">
+                <div class="logo">智能家庭中心</div>
+                <el-menu active-text-color="#409EFF" background-color="#304156" class="vertical-menu" default-active="1"
+                    text-color="#bfcbd9">
+                    <el-menu-item index="1">
+                        <el-icon>
+                            <House />
                         </el-icon>
-                    </el-badge>
-                </div>
-            </el-header>
+                        <span>首页概览</span>
+                    </el-menu-item>
+                    <el-menu-item index="2">
+                        <el-icon>
+                            <Folder />
+                        </el-icon>
+                        <span>文件管理</span>
+                    </el-menu-item>
+                    <el-menu-item index="3">
+                        <el-icon>
+                            <VideoCamera />
+                        </el-icon>
+                        <span>媒体库</span>
+                    </el-menu-item>
+                    <el-menu-item index="4">
+                        <el-icon>
+                            <Upload />
+                        </el-icon>
+                        <span>备份中心</span>
+                    </el-menu-item>
+                    <el-menu-item index="5">
+                        <el-icon>
+                            <Setting />
+                        </el-icon>
+                        <span>系统设置</span>
+                    </el-menu-item>
+                </el-menu>
+            </el-aside>
 
-            <!-- 主要内容 -->
-            <el-main class="main-content">
-                <el-row :gutter="20">
-                    <el-col :span="8">
-                        <el-card class="stats-card">
-                            <template #header>
-                                <div class="card-header">
-                                    <span>存储空间</span>
-                                </div>
+            <el-container>
+                <!-- 头部 -->
+                <el-header class="header">
+                    <div class="header-nav">
+                        <el-dropdown @command="handleCommand">
+                            <span class="el-dropdown-link">
+                                <el-avatar :size="30" :src="avatar" />
+                                <span class="username">{{ name }}</span>
+                                <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                            </span>
+                            <template #dropdown>
+                                <el-dropdown-menu>
+                                    <el-dropdown-item command="userCenter">个人中心</el-dropdown-item>
+                                    <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                                </el-dropdown-menu>
                             </template>
-                            <el-progress type="dashboard" :percentage="26.5" :color="colors" />
-                            <div class="storage-info">
-                                <span>已用 765GB / 共 1TB</span>
-                            </div>
-                        </el-card>
-                    </el-col>
+                        </el-dropdown>
+                    </div>
+                    <div class="header-nav">
+                        <el-badge :value="broadcastInfo.broadcastUnreadCount" class="item" type="primary">
+                            <el-icon @click="broadcastInfoShow">
+                                <Message />
+                            </el-icon>
+                        </el-badge>
+                    </div>
+                </el-header>
 
-                    <el-col :span="16">
-                        <el-card class="recent-activity">
-                            <template #header>
-                                <div class="card-header">
-                                    <span>最近活动</span>
+                <!-- 主要内容 -->
+                <el-main class="main-content">
+                    <el-row :gutter="20">
+                        <el-col :span="8">
+                            <el-card class="stats-card">
+                                <template #header>
+                                    <div class="card-header">
+                                        <span>存储空间</span>
+                                    </div>
+                                </template>
+                                <el-progress type="dashboard" :percentage="26.5" :color="colors" />
+                                <div class="storage-info">
+                                    <span>已用 765GB / 共 1TB</span>
                                 </div>
-                            </template>
-                            <el-timeline>
-                                <el-timeline-item v-for="(activity, index) in activities" :key="index"
-                                    :timestamp="activity.timestamp">
-                                    {{ activity.content }}
-                                </el-timeline-item>
-                            </el-timeline>
-                        </el-card>
-                    </el-col>
-                </el-row>
-            </el-main>
+                            </el-card>
+                        </el-col>
+
+                        <el-col :span="16">
+                            <el-card class="recent-activity">
+                                <template #header>
+                                    <div class="card-header">
+                                        <span>最近活动</span>
+                                    </div>
+                                </template>
+                                <el-timeline>
+                                    <el-timeline-item v-for="(activity, index) in activities" :key="index"
+                                        :timestamp="activity.timestamp">
+                                        {{ activity.content }}
+                                    </el-timeline-item>
+                                </el-timeline>
+                            </el-card>
+                        </el-col>
+                    </el-row>
+                </el-main>
+            </el-container>
         </el-container>
-    </el-container>
 
-    <el-dialog v-model="broadcastInfo.broadcastTableVisible" title="公告" width="800">
-        <el-table :data="broadcastInfo.broadcastGrip" :row-class-name="broadcastInfo.broadcastGripRowClassName"
-            height="400">
-            <el-table-column property="createdAt" label="发布时间" width="120" />
-            <el-table-column property="message" label="内容" width="500" />
-            <el-table-column property="publishUserName" label="发布者" width="120" />
-        </el-table>
-        <div v-if="broadcastInfo.showFormButton">
-            <el-button type="primary" @click="broadcastFormShow"> 发布 </el-button>
-        </div>
-    </el-dialog>
-
-    <el-dialog v-model="broadcastFormInfo.broadcastFormVisible" title="发布" width="500">
-        <el-form ref="broadcastFormRef" :model="broadcastFormInfo.broadcastForm" :rules="broadcastFormInfo.rules">
-            <el-form-item label="内容" prop="message">
-                <el-input v-model="broadcastFormInfo.broadcastForm.message" type="textarea" placeholder="输入公告消息"
-                    clearable />
-            </el-form-item>
-        </el-form>
-        <template #footer>
-            <div class="dialog-footer">
-                <el-button type="primary" :loading="broadcastFormInfo.loading"
-                    @click="broadcastFormSubmit(broadcastFormRef)">
-                    提交
-                </el-button>
+        <el-dialog v-model="broadcastInfo.broadcastTableVisible" title="公告" width="800">
+            <el-table :data="broadcastInfo.broadcastGrip" :row-class-name="broadcastInfo.broadcastGripRowClassName"
+                height="400">
+                <el-table-column property="createdAt" label="发布时间" width="120" />
+                <el-table-column property="message" label="内容" width="500" />
+                <el-table-column property="publishUserName" label="发布者" width="120" />
+            </el-table>
+            <div v-if="broadcastInfo.showFormButton">
+                <el-button type="primary" @click="broadcastFormShow"> 发布 </el-button>
             </div>
-        </template>
-    </el-dialog>
+        </el-dialog>
+
+        <el-dialog v-model="broadcastFormInfo.broadcastFormVisible" title="发布" width="500">
+            <el-form ref="broadcastFormRef" :model="broadcastFormInfo.broadcastForm" :rules="broadcastFormInfo.rules">
+                <el-form-item label="内容" prop="message">
+                    <el-input v-model="broadcastFormInfo.broadcastForm.message" type="textarea" placeholder="输入公告消息"
+                        clearable />
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button type="primary" :loading="broadcastFormInfo.loading"
+                        @click="broadcastFormSubmit(broadcastFormRef)">
+                        提交
+                    </el-button>
+                </div>
+            </template>
+        </el-dialog>
+    </div>
 </template>
 
 <style lang="scss" scoped>

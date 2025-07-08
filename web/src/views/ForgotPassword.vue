@@ -10,7 +10,7 @@ interface forgotPasswordFormInter {
 }
 
 const router = useRouter()
-const { forgotPasswordToken } = useAuthentication()
+const { forgotPassword } = useAuthentication()
 let loading = ref(false)
 const forgotPasswordFormRef = ref<FormInstance>()
 const forgotPasswordForm = reactive<forgotPasswordFormInter>({
@@ -28,7 +28,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         if (valid) {
             loading.value = true
             try {
-                let email = await forgotPasswordToken({
+                let email = await forgotPassword({
                     nameOrEmail: forgotPasswordForm.nameOrEmail
                 })
                 router.push({

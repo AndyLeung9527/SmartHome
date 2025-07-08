@@ -5,9 +5,7 @@ import { type userInfoResponseInter, type broadcastResponseInter } from "@/types
 import useAuthentication from "./useAuthentication"
 
 export default function () {
-    // const apiDomain = import.meta.env.VITE_SERVER_DOMAIN as string
     const apiAxios = axios.create({
-        // baseURL: apiDomain,
         timeout: 10000
     })
     const { refreshAccessToken } = useAuthentication()

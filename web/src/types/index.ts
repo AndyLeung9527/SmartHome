@@ -1,9 +1,22 @@
+export interface callbackDtoInter {
+    callbackUrl: string
+    emailQueryParam: string
+    tokenQueryParam: string
+}
+
 export interface registerDtoInter {
     email: string
     name: string
     password: string
     confirmPassword: string
     dateOfBirth: string
+}
+
+export interface registerExtendDtoInter extends registerDtoInter, callbackDtoInter { }
+
+export interface confirmEmailDtoInter {
+    email: string
+    token: string
 }
 
 export interface authenticationDtoInter {
@@ -25,15 +38,11 @@ export interface refreshAccessTokenResponseInter {
     accessToken: string
 }
 
-export interface forgotPasswordTokenDtoInter {
+export interface forgotPasswordDtoInter {
     nameOrEmail: string
 }
 
-export interface forgotPasswordTokenExtendDtoInter extends forgotPasswordTokenDtoInter {
-    callbackUrl: string
-    emailQueryParam: string
-    tokenQueryParam: string
-}
+export interface forgotPasswordExtendDtoInter extends forgotPasswordDtoInter, callbackDtoInter { }
 
 export interface resetPasswordDtoInter {
     email: string

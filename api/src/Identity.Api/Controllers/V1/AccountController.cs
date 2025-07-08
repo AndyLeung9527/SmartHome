@@ -6,7 +6,7 @@
 [ApiVersion(1)]
 [ApiController]
 [Route("api/v{apiVersion:apiVersion}/[controller]/[action]")]
-public class AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RedisService redisService, RsaKeyService rsaKeyService, IOptionsSnapshot<IdentityOptions> identityOptions, IOptionsSnapshot<AppOptions> appOptions, IOptionsSnapshot<JwtOptions> jwtOtions, IdGenerator idGenerator, Services.MailService mailService) : ControllerBase
+public class AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RedisService redisService, RsaKeyService rsaKeyService, IOptionsSnapshot<IdentityOptions> identityOptions, IOptionsSnapshot<JwtOptions> jwtOtions, IdGenerator idGenerator, Services.MailService mailService) : ControllerBase
 {
     /// <summary>
     /// 注册
@@ -29,7 +29,7 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
         }
 
         var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-        var url = $"{appOptions.Value.Domain}/api/v1/Account/ConfirmEmail?email={user.Email}&token={HttpUtility.UrlEncode(token)}";
+        var url = $"{dto.CallbackUrl}?{dto.EmailQueryParam}={user.Email}&{dto.TokenQueryParam}={HttpUtility.UrlEncode(token)}";
         var body = $"""
             <h1>欢迎注册</h1>
             <p>{user.UserName}：请点击下面的链接确认您的邮箱地址：</p>
@@ -48,24 +48,22 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
     /// <summary>
     /// 确认邮箱
     /// </summary>
-    /// <param name="email">邮箱</param>
-    /// <param name="token">密钥</param>
-    [HttpGet]
-    public async Task<ContentHttpResult> ConfirmEmail([FromQuery] string email, [FromQuery] string token)
+    [HttpPut]
+    public async Task<Results<Ok, BadRequest<string>>> ConfirmEmail([FromBody] ConfirmEmailDto dto)
     {
-        var user = await userManager.FindByEmailAsync(email);
+        var user = await userManager.FindByEmailAsync(dto.Email);
         if (user is null)
         {
-            return TypedResults.Content("用户不存在");
+            return TypedResults.BadRequest("用户不存在");
         }
 
-        var result = await userManager.ConfirmEmailAsync(user, token);
+        var result = await userManager.ConfirmEmailAsync(user, dto.Token);
         if (!result.Succeeded)
         {
-            return TypedResults.Content(string.Join(", ", result.Errors.Select(o => o.Description)));
+            return TypedResults.BadRequest(string.Join(", ", result.Errors.Select(o => o.Description)));
         }
 
-        return TypedResults.Content("邮箱确认成功");
+        return TypedResults.Ok();
     }
 
     /// <summary>
@@ -161,7 +159,7 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
     /// </summary>
     /// <returns>用户邮箱</returns>
     [HttpPut]
-    public async Task<Results<Ok<string>, BadRequest<string>>> ForgotPasswordToken([FromBody] ForgotPasswordTokenDto dto)
+    public async Task<Results<Ok<string>, BadRequest<string>>> ForgotPassword([FromBody] ForgotPasswordTokenDto dto)
     {
         var user = await userManager.FindByEmailAsync(dto.NameOrEmail);
         if (user is null)

@@ -1,4 +1,5 @@
-﻿namespace SmartHome.Infrastructure.Repositories;
+﻿
+namespace SmartHome.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
@@ -34,5 +35,10 @@ public class UserRepository : IUserRepository
     public Task<User?> FindByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         return _smartHomeContext.Users.FirstOrDefaultAsync(u => u.Name == name, cancellationToken);
+    }
+
+    public Task<List<User>> GetByIdsAsync(long[] ids, CancellationToken cancellationToken = default)
+    {
+        return _smartHomeContext.Users.Where(u => ids.Contains(u.Id)).ToListAsync();
     }
 }

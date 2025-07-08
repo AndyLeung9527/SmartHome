@@ -11,8 +11,10 @@ public class BroadcastReadCommandHandler(IUserRepository userRepository, IBroadc
         }
 
         var broadcasts = await broadcastRepository.GetAllAsync(cancellationToken);
+        var userIds = broadcasts.Select(o => o.UserId).Distinct().ToArray();
 
-        var result = (true, string.Empty, broadcasts.Select(o => new BroadcastResponse(user.Name, o.Message, o.CreatedAt, o.CreatedAt <= user.LastReadBroadcastAt)).ToList());
+        var users = await userRepository.GetByIdsAsync(userIds, cancellationToken);
+        var result = (true, string.Empty, broadcasts.Select(o => new BroadcastResponse(users.FirstOrDefault(u => u.Id == o.UserId)?.Name ?? string.Empty, o.Message, o.CreatedAt, o.CreatedAt <= user.LastReadBroadcastAt)).ToList());
 
         user.UpdateLastReadBroadcastAt();
         userRepository.Update(user);
