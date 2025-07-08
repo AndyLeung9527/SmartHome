@@ -14,6 +14,8 @@ public static class SmartHomeDbContextExtensions
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IBroadcastRepository, BroadcastRepository>();
 
+        builder.Services.AddMigration<SmartHomeContext>();
+
         return builder;
     }
 }

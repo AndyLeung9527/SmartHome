@@ -1,4 +1,4 @@
-﻿namespace Identity.Api.HostApplicationBuilderExtensions;
+﻿namespace Mail.Api.HostApplicationBuilderExtensions;
 
 public static class CorsExtensions
 {

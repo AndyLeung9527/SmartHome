@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+import useBroadcastHub from "@/hooks/useBroadcastHub"
 
 export const useUserStore = defineStore('user', () => {
     let nameKey = 'smart_home_name'
@@ -66,6 +67,12 @@ export const useUserStore = defineStore('user', () => {
     }
 
     function logout() {
+        let { disconnect } = useBroadcastHub()
+        disconnect().then(() => {
+            console.log('Disconnected from broadcast hub')
+        }).catch(err => {
+            console.error('Error disconnecting from broadcast hub:', err)
+        })
         sessionStorage.removeItem(nameKey)
         sessionStorage.removeItem(accessTokenKey)
         sessionStorage.removeItem(refreshTokenKey)

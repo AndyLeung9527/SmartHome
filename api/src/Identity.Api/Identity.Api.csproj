@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 	  <None Remove="private.pem" />
+	  <None Remove="Protos\sendmail.proto" />
 	  <None Remove="public.pem" />
 	</ItemGroup>
 
@@ -28,6 +29,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+		<PackageReference Include="Google.Protobuf" Version="3.31.1" />
+		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.71.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.72.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="IdGen.DependencyInjection" Version="3.0.7" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
@@ -44,7 +51,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\MailUtility\MailUtility.csproj" />
+	  <Protobuf Include="Protos\sendmail.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 </Project>

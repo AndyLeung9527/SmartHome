@@ -49,6 +49,9 @@ const rules = reactive<FormRules<RegisterFormInter>>({
     ],
     confirmPassword: [
         { required: true, validator: equalToPassword, trigger: 'blur' }
+    ],
+    dateOfBirth: [
+        { required: true, message: '请选择出生日期', trigger: 'blur' }
     ]
 })
 let loading = ref(false)
@@ -110,7 +113,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 </el-form-item>
 
                 <el-form-item label="出生日期" prop="dateOfBirth">
-                    <el-date-picker v-model="registerForm.dateOfBirth" type="date" size="large" placeholder="输入出生日期" />
+                    <el-date-picker v-model="registerForm.dateOfBirth" type="date" size="large" placeholder="输入出生日期"
+                        clearable />
                 </el-form-item>
 
                 <el-form-item>

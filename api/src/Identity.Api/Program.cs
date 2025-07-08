@@ -14,6 +14,7 @@ public class Program
         builder.AddIdentityServices();
         builder.AddMvcVersioning();
         builder.AddRsaServices();
+        builder.AddMailService();
         builder.AddApplicationDbContext();
         builder.Services.AddOptions().Configure<AppOptions>(options => builder.Configuration.GetSection("App").Bind(options));
         builder.Services.AddOptions().Configure<JwtOptions>(options => builder.Configuration.GetSection("Jwt").Bind(options));

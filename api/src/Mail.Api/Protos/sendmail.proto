@@ -1,0 +1,20 @@
+syntax = "proto3";
+option csharp_namespace = "Mail.Api.Protos";
+package sendmail;
+
+service MailService {
+  rpc SendEmail(SendEmailRequest) returns (SendEmailResult);
+}
+
+message SendEmailRequest {
+  string fromName = 1;
+  string toName = 2;
+  string toEmail = 3;
+  string subject = 4;
+  string body = 5;
+}
+
+message SendEmailResult {
+  bool success = 1;
+  string message = 2;
+}

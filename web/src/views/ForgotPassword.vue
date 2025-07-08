@@ -66,7 +66,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
                 <div class="link-container">
                     <RouterLink class="text-link" to="/register">立即注册</RouterLink>
-                    <RouterLink class="text-link" to="/forgotPassword">已有账号</RouterLink>
+                    <RouterLink class="text-link" to="/login">已有账号</RouterLink>
                 </div>
             </el-form>
         </el-card>

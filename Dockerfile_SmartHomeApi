@@ -25,10 +25,10 @@ RUN dotnet publish -c Release -o /app --no-restore
 
 # final image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
-# configure ENV ASPNETCORE_URLS=http://+:5050 if use WebHost.CreateDefaultBuilder()
-ENV ASPNETCORE_HTTP_PORTS=5050
+# configure ENV ASPNETCORE_URLS=https://+:10101 if use WebHost.CreateDefaultBuilder()
+ENV ASPNETCORE_HTTP_PORTS=10101
 LABEL author=LWB
 WORKDIR /app
 COPY --from=build /app ./
-EXPOSE 5050
+EXPOSE 10101
 ENTRYPOINT ["dotnet", "SmartHome.Api.dll"]

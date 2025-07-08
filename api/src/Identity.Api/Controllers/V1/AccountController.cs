@@ -6,7 +6,7 @@
 [ApiVersion(1)]
 [ApiController]
 [Route("api/v{apiVersion:apiVersion}/[controller]/[action]")]
-public class AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RedisService redisService, RsaKeyService rsaKeyService, IOptionsSnapshot<IdentityOptions> identityOptions, IOptionsSnapshot<AppOptions> appOptions, IOptionsSnapshot<JwtOptions> jwtOtions, IdGenerator idGenerator) : ControllerBase
+public class AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RedisService redisService, RsaKeyService rsaKeyService, IOptionsSnapshot<IdentityOptions> identityOptions, IOptionsSnapshot<AppOptions> appOptions, IOptionsSnapshot<JwtOptions> jwtOtions, IdGenerator idGenerator, Services.MailService mailService) : ControllerBase
 {
     /// <summary>
     /// 注册
@@ -35,7 +35,13 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
             <p>{user.UserName}：请点击下面的链接确认您的邮箱地址：</p>
             <a href='{url}'>{url}</a>
         """;
-        await MailSendingService.SendMailAsync(user.UserName!, user.Email!, "欢迎注册", body);
+
+        var result = await mailService.SendEmailAsync(user.UserName!, user.Email!, "欢迎注册", body);
+        if (!result.Item1)
+        {
+            return TypedResults.BadRequest(result.Item2);
+        }
+
         return TypedResults.Ok();
     }
 
@@ -173,7 +179,13 @@ public class AccountController(UserManager<User> userManager, SignInManager<User
             <p>{user.UserName}：请点击下面的链接重置您的密码：</p>
             <a href='{url}'>{url}</a>
         """;
-        await MailSendingService.SendMailAsync(user.UserName!, user.Email!, "重置密码", body);
+
+        var result = await mailService.SendEmailAsync(user.UserName!, user.Email!, "重置密码", body);
+        if (!result.Item1)
+        {
+            return TypedResults.BadRequest(result.Item2);
+        }
+
         return TypedResults.Ok(user.Email);
     }
 

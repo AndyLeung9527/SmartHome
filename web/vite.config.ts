@@ -24,4 +24,15 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    proxy: {
+      '^/api/v[1-9][0-9]*/account': 'http://localhost:10103',
+      '^/api': 'http://localhost:10101',
+      '^/ws': {
+        target: 'ws://localhost:10101',
+        ws: true,
+        changeOrigin: true
+      }
+    }
+  }
 })

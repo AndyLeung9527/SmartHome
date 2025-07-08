@@ -1,0 +1,104 @@
+name: smart_home
+services:
+  web:
+    container_name: web
+    image: smarthomeweb:1.0.0-alpha.1
+    ports:
+      - "8080:80"
+    environment:
+      - VITE_WEB_DOMAIN=http://localhost:8080
+      - VITE_SERVER_DOMAIN=http://api:10101
+      - VITE_AUTH_DOMAIN=http://identityapi:10103
+    networks:
+     - smart_home
+    depends_on:
+     - api
+
+  api:
+    container_name: api
+    image: smarthomeapi:1.0.0-alpha.1
+    ports:
+      - "10101:10101"
+    environment:
+      - App:WorkerId=1
+      - ConnectionStrings:Postgresql=Host=postgresql;Port=5432;Username=postgres;Password=postgres;Database=smarthomedb
+      - ConnectionStrings:EventBus=amqp://root:root@rabbitmq
+    networks:
+     - smart_home
+    depends_on:
+     - identityapi
+     - postgresql
+     - rabbitmq
+
+  identityapi:
+    container_name: identityapi
+    image: identityapi:1.0.0-alpha.1
+    ports:
+      - "10103:10103"
+    environment:
+      - App:Domain=http://localhost:10103
+      - App:AdminPassword=admin
+      - App:WorkerId=1
+      - ConnectionStrings:Postgresql=Host=postgresql;Port=5432;Username=postgres;Password=postgres;Database=identitydb
+      - ConnectionStrings:Redis=redis
+      - ConnectionStrings:Mail=http://mailapi:10105
+    networks:
+     - smart_home
+    depends_on:
+     - mailapi
+     - postgresql
+     - redis
+
+  mailapi:
+    container_name: mailapi
+    image: mailapi:1.0.0-alpha.1
+    ports:
+      - "10105:10105"
+    networks:
+     - smart_home
+
+  postgresql:
+    container_name: postgresql
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    networks:
+     - smart_home
+    # volumes:
+    #   - /mnt/docker/postgresql/data:/var/lib/postgresql/data
+    #   - /mnt/docker/postgresql/conf:/etc/postgresql/postgresql.conf
+    # restart: always
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+     - smart_home
+    # volumes:
+    #   - /mnt/docker/redis/data:/data
+    #   - /mnt/docker/redis/conf:/usr/local/etc/redis/redis.conf
+    # restart: always
+    # command: redis-server /usr/local/etc/redis/redis.conf
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root
+    networks:
+     - smart_home
+    # volumes:
+    #   - /mnt/docker/rabbitmq/data:/var/lib/rabbitmq
+    # restart: always
+
+networks:
+  smart_home:

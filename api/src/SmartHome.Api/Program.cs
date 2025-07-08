@@ -26,7 +26,7 @@ public class Program
         app.UseAuthorization();
         app.MapOpenApi();
         app.MapScalarApiReference();
-        app.MapHub<BroadcastHub>("/broadcastHub");
+        app.MapHub<BroadcastHub>("/ws/broadcasthub");
 
         app.MapUserApiV1();
         app.MapBroadcastApiV1();

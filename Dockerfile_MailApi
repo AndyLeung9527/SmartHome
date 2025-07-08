@@ -1,26 +1,26 @@
 # https://hub.docker.com/_/microsoft-dotnet
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG SOLUTION_NAME=api.Identity.Api.slnf
+ARG SOLUTION_NAME=api.Mail.Api.slnf
 WORKDIR /project
 
 # copy and restore
 COPY api/*.sln .
 COPY api/${SOLUTION_NAME} .
-COPY api/src/Identity.Api/*.csproj ./src/Identity.Api/
+COPY api/src/Mail.Api/*.csproj ./src/Mail.Api/
 RUN dotnet restore ${SOLUTION_NAME}
 
 # copy and publish
-COPY api/src/Identity.Api ./src/Identity.Api/
+COPY api/src/Mail.Api ./src/Mail.Api/
 COPY api/src/Shared ./src/Shared/
-WORKDIR /project/src/Identity.Api
+WORKDIR /project/src/Mail.Api
 RUN dotnet publish -c Release -o /app --no-restore
 
 # final image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
-# configure ENV ASPNETCORE_URLS=https://+:10103 if use WebHost.CreateDefaultBuilder()
-ENV ASPNETCORE_HTTP_PORTS=10103
+# configure ENV ASPNETCORE_URLS=https://+:10105 if use WebHost.CreateDefaultBuilder()
+ENV ASPNETCORE_HTTP_PORTS=10105
 LABEL author=LWB
 WORKDIR /app
 COPY --from=build /app ./
-EXPOSE 10103
-ENTRYPOINT ["dotnet", "Identity.Api.dll"]
+EXPOSE 10105
+ENTRYPOINT ["dotnet", "Mail.Api.dll"]

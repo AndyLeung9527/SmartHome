@@ -1,18 +1,18 @@
 import * as signalR from '@microsoft/signalr'
-import useApi from '@/hooks/useApi'
 
 export default function () {
-    const { apiDomain } = useApi()
+    // const { apiDomain } = useApi()
     const connection = new signalR.HubConnectionBuilder()
         // 身份验证示例 .withUrl("/messageHub", {accessTokenFactory: () => sessionStorage.getItem("token")})
-        .withUrl(`${apiDomain}/broadcastHub`)
+        .withUrl('ws/broadcastHub')
+        // .withUrl(`${apiDomain}/broadcastHub`)
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
     async function start() {
         try {
             await connection.start()
-            console.log(`'${apiDomain}/broadcastHub' SignalR connection started`)
+            console.log("'ws/broadcastHub' SignalR connection started")
         } catch (err) {
             console.log(err)
             setTimeout(start, 10000) // 重试连接

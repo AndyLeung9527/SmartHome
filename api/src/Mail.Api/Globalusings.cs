@@ -1,0 +1,12 @@
+﻿global using Grpc.Core;
+global using Mail.Api.HostApplicationBuilderExtensions;
+global using Mail.Api.Options;
+global using Mail.Api.Protos;
+global using MailKit.Net.Smtp;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.Extensions.Options;
+global using Microsoft.IdentityModel.Tokens;
+global using MimeKit;
+global using MimeKit.Text;
+global using System.Security.Cryptography;
