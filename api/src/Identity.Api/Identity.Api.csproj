@@ -51,6 +51,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\SmartHome.ServiceDefaults\SmartHome.ServiceDefaults.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Protobuf Include="Protos\sendmail.proto" GrpcServices="Client" />
 	</ItemGroup>
 

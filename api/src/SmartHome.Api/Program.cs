@@ -6,6 +6,8 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.AddServiceDefaults();
+
         builder.AddSmartHomeAuthentication();
         builder.AllowAllCors();
         builder.AddEventBus();

@@ -6,6 +6,8 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.AddServiceDefaults();
+
         builder.AddMailAuthentication();
         builder.AddUnencryptedGrpc();
         builder.Services.AddAuthorization();

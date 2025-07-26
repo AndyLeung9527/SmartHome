@@ -21,6 +21,10 @@
     <PackageReference Include="MailKit" Version="4.13.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.7" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\SmartHome.ServiceDefaults\SmartHome.ServiceDefaults.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <Protobuf Include="Protos\sendmail.proto" GrpcServices="Server" />

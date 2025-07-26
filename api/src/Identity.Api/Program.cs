@@ -7,6 +7,8 @@ public class Program
 
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.AddServiceDefaults();
+
         builder.Services.AddOpenApi();
         builder.Services.AddControllers();
 

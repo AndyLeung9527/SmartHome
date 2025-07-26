@@ -38,6 +38,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
 		<ProjectReference Include="..\SmartHome.Infrastructure\SmartHome.Infrastructure.csproj" />
+		<ProjectReference Include="..\SmartHome.ServiceDefaults\SmartHome.ServiceDefaults.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

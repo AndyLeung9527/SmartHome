@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.Infrastructure", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mail.Api", "src\Mail.Api\Mail.Api.csproj", "{EC6984C1-7D2D-440A-A63D-B5247C985929}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.AppHost", "src\SmartHome.AppHost\SmartHome.AppHost.csproj", "{6781D286-AA5C-46CA-B171-1D0983A0757D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.ServiceDefaults", "src\SmartHome.ServiceDefaults\SmartHome.ServiceDefaults.csproj", "{F448BF3F-BD8A-BA30-70EA-A0CC61B31375}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ Global
 		{EC6984C1-7D2D-440A-A63D-B5247C985929}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC6984C1-7D2D-440A-A63D-B5247C985929}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC6984C1-7D2D-440A-A63D-B5247C985929}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6781D286-AA5C-46CA-B171-1D0983A0757D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6781D286-AA5C-46CA-B171-1D0983A0757D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6781D286-AA5C-46CA-B171-1D0983A0757D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6781D286-AA5C-46CA-B171-1D0983A0757D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F448BF3F-BD8A-BA30-70EA-A0CC61B31375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F448BF3F-BD8A-BA30-70EA-A0CC61B31375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F448BF3F-BD8A-BA30-70EA-A0CC61B31375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F448BF3F-BD8A-BA30-70EA-A0CC61B31375}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +79,8 @@ Global
 		{825150A7-8434-4DDB-8472-1A435732B4A0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{D1653C04-7F0F-4E77-9D0A-9496E861224F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{EC6984C1-7D2D-440A-A63D-B5247C985929} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6781D286-AA5C-46CA-B171-1D0983A0757D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F448BF3F-BD8A-BA30-70EA-A0CC61B31375} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA87DCB5-9046-45E1-B563-3285466D79DA}
