@@ -2,7 +2,8 @@
   "solution": {
     "path": "api.sln",
     "projects": [
-      "src\\Mail.Api\\Mail.Api.csproj"
+      "src\\Mail.Api\\Mail.Api.csproj",
+      "src\\SmartHome.ServiceDefaults\\SmartHome.ServiceDefaults.csproj"
     ]
   }
 }

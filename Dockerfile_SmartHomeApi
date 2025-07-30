@@ -11,6 +11,7 @@ COPY api/src/EventBusRabbitMQ/*.csproj ./src/EventBusRabbitMQ/
 COPY api/src/SmartHome.Api/*.csproj ./src/SmartHome.Api/
 COPY api/src/SmartHome.Domain/*.csproj ./src/SmartHome.Domain/
 COPY api/src/SmartHome.Infrastructure/*.csproj ./src/SmartHome.Infrastructure/
+COPY api/src/SmartHome.ServiceDefaults/*.csproj ./src/SmartHome.ServiceDefaults/
 RUN dotnet restore ${SOLUTION_NAME}
 
 # copy and publish
@@ -20,6 +21,7 @@ COPY api/src/SmartHome.Api ./src/SmartHome.Api/
 COPY api/src/SmartHome.Domain ./src/SmartHome.Domain/
 COPY api/src/SmartHome.Infrastructure ./src/SmartHome.Infrastructure/
 COPY api/src/Shared ./src/Shared/
+COPY api/src/SmartHome.ServiceDefaults ./src/SmartHome.ServiceDefaults/
 WORKDIR /project/src/SmartHome.Api
 RUN dotnet publish -c Release -o /app --no-restore
 

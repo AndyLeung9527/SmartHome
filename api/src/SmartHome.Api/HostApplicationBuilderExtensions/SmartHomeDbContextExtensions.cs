@@ -8,7 +8,7 @@ public static class SmartHomeDbContextExtensions
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
         builder.Services.AddDbContext<SmartHomeContext>(options =>
         {
-            options.UseNpgsql(builder.Configuration.GetConnectionString("Postgresql"));
+            options.UseNpgsql(builder.Configuration.GetConnectionString("SmartHomeDb"));
         });
 
         builder.Services.AddScoped<IUserRepository, UserRepository>();

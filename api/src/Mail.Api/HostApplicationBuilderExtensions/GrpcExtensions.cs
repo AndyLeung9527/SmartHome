@@ -7,10 +7,9 @@ public static class GrpcExtensions
         builder.Services.AddGrpc();
         return builder.WebHost.ConfigureKestrel(options =>
         {
-            options.ListenAnyIP(10105, listenOptions =>
+            options.ConfigureEndpointDefaults(options =>
             {
-                // Configure Kestrel to use HTTP/2 without TLS for gRPC
-                listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+                options.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
             });
         });
     }

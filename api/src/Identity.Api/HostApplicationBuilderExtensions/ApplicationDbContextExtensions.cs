@@ -8,7 +8,7 @@ public static class ApplicationDbContextExtensions
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseNpgsql(builder.Configuration.GetConnectionString("Postgresql"));
+            options.UseNpgsql(builder.Configuration.GetConnectionString("IdentityDb"));
         });
 
         return builder;

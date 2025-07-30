@@ -6,7 +6,8 @@
       "src\\EventBus\\EventBus.csproj",
       "src\\SmartHome.Api\\SmartHome.Api.csproj",
       "src\\SmartHome.Domain\\SmartHome.Domain.csproj",
-      "src\\SmartHome.Infrastructure\\SmartHome.Infrastructure.csproj"
+      "src\\SmartHome.Infrastructure\\SmartHome.Infrastructure.csproj",
+      "src\\SmartHome.ServiceDefaults\\SmartHome.ServiceDefaults.csproj"
     ]
   }
 }

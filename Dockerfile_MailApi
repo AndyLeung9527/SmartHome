@@ -7,11 +7,13 @@ WORKDIR /project
 COPY api/*.sln .
 COPY api/${SOLUTION_NAME} .
 COPY api/src/Mail.Api/*.csproj ./src/Mail.Api/
+COPY api/src/SmartHome.ServiceDefaults/*.csproj ./src/SmartHome.ServiceDefaults/
 RUN dotnet restore ${SOLUTION_NAME}
 
 # copy and publish
 COPY api/src/Mail.Api ./src/Mail.Api/
 COPY api/src/Shared ./src/Shared/
+COPY api/src/SmartHome.ServiceDefaults ./src/SmartHome.ServiceDefaults/
 WORKDIR /project/src/Mail.Api
 RUN dotnet publish -c Release -o /app --no-restore
 

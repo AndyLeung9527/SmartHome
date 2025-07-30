@@ -7,11 +7,13 @@ WORKDIR /project
 COPY api/*.sln .
 COPY api/${SOLUTION_NAME} .
 COPY api/src/Identity.Api/*.csproj ./src/Identity.Api/
+COPY api/src/SmartHome.ServiceDefaults/*.csproj ./src/SmartHome.ServiceDefaults/
 RUN dotnet restore ${SOLUTION_NAME}
 
 # copy and publish
 COPY api/src/Identity.Api ./src/Identity.Api/
 COPY api/src/Shared ./src/Shared/
+COPY api/src/SmartHome.ServiceDefaults ./src/SmartHome.ServiceDefaults/
 WORKDIR /project/src/Identity.Api
 RUN dotnet publish -c Release -o /app --no-restore
 
