@@ -25,5 +25,5 @@ public class RedisService : IDisposable
 public static class RedisKeys
 {
     private const string PREFIX = "Identity.Api:";
-    public static string Wrap(string key) => $"{PREFIX}key";
+    public static string Wrap(string key) => $"{PREFIX}{key}";
 }
