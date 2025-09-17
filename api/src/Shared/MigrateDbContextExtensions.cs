@@ -16,7 +16,7 @@ internal static class MigrateDbContextExtensions
     {
         services.AddOpenTelemetry().WithTracing(tracing => tracing.AddSource(ActivitySourceName));
 
-        return services.AddSingleton<IHostedService>(sp => new MigrationHostedService<TContext>(sp, seeder));
+        return services.AddHostedService(sp => new MigrationHostedService<TContext>(sp, seeder));
     }
 
     public static IServiceCollection AddMigration<TContext, TDbSeeder>(this IServiceCollection services)
