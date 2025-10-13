@@ -24,7 +24,7 @@ public class MailService : Protos.MailService.MailServiceBase
         // 随机选择一个可用的邮箱集
         var item = Random.Shared.GetItems(items, 1).First();
         // 随机选择一个可用的邮箱地址
-        var address = Random.Shared.GetItems(item.Addresses.ToArray(), 1).First();
+        var address = Random.Shared.GetItems(item.Addresses.Where(o => o.Enable).ToArray(), 1).First();
 
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(request.FromName, address.Email));
