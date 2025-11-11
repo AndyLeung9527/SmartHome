@@ -18,7 +18,7 @@ public class Program
         builder.AddRsaServices();
         builder.AddMailService();
         builder.AddApplicationDbContext();
-        builder.Services.AddOptions().Configure<JwtOptions>(options => builder.Configuration.GetSection("Jwt").Bind(options));
+        builder.Services.AddOptions<JwtOptions>().BindConfiguration("Jwt");
         builder.Services.AddSingleton<RedisService>();
         builder.Services.AddIdGen(builder.Configuration.GetSection("App").GetValue<int>("WorkerId"));
 

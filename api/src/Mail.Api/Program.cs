@@ -11,7 +11,7 @@ public class Program
         builder.AddMailAuthentication();
         builder.AddUnencryptedGrpc();
         builder.Services.AddAuthorization();
-        builder.Services.AddOptions().Configure<EmailOption>(builder.Configuration.GetSection("Email"));
+        builder.Services.AddOptions<EmailOption>().BindConfiguration("Email");
 
         var app = builder.Build();
 
