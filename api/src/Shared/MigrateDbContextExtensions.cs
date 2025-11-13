@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Diagnostics;
 
 namespace Microsoft.AspNetCore.Hosting;
@@ -7,27 +8,24 @@ internal static class MigrateDbContextExtensions
     private static readonly string ActivitySourceName = "DbMigrations";
     private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
 
-    public static IServiceCollection AddMigration<TContext>(this IServiceCollection services)
-        where TContext : DbContext
-        => services.AddMigration<TContext>((_, _) => Task.CompletedTask);
+    public static IServiceCollection AddMigration<TContext, TDbSeeder>(this IServiceCollection services)
+    where TContext : DbContext
+    where TDbSeeder : class, IDbSeeder<TContext>
+    {
+        services.TryAddEnumerable(ServiceDescriptor.Scoped<IDbSeeder<TContext>, TDbSeeder>());
 
-    public static IServiceCollection AddMigration<TContext>(this IServiceCollection services, Func<TContext, IServiceProvider, Task> seeder)
+        return services.AddMigration<TContext>();
+    }
+
+    public static IServiceCollection AddMigration<TContext>(this IServiceCollection services)
         where TContext : DbContext
     {
         services.AddOpenTelemetry().WithTracing(tracing => tracing.AddSource(ActivitySourceName));
 
-        return services.AddHostedService(sp => new MigrationHostedService<TContext>(sp, seeder));
+        return services.AddHostedService<MigrationHostedService<TContext>>();
     }
 
-    public static IServiceCollection AddMigration<TContext, TDbSeeder>(this IServiceCollection services)
-        where TContext : DbContext
-        where TDbSeeder : class, IDbSeeder<TContext>
-    {
-        services.AddKeyedScoped<IDbSeeder<TContext>, TDbSeeder>(typeof(TDbSeeder).FullName);
-        return services.AddMigration<TContext>((context, sp) => sp.GetRequiredKeyedService<IDbSeeder<TContext>>(typeof(TDbSeeder).FullName).SeedAsync(context));
-    }
-
-    private class MigrationHostedService<TContext>(IServiceProvider serviceProvider, Func<TContext, IServiceProvider, Task> seeder)
+    private class MigrationHostedService<TContext>(IServiceProvider serviceProvider)
         : BackgroundService where TContext : DbContext
     {
         public override async Task StartAsync(CancellationToken cancellationToken)
@@ -36,6 +34,7 @@ internal static class MigrateDbContextExtensions
             var services = scope.ServiceProvider;
             var logger = services.GetRequiredService<ILogger<TContext>>();
             var context = services.GetRequiredService<TContext>();
+            var seeders = services.GetServices<IDbSeeder<TContext>>();
 
             using var activity = ActivitySource.StartActivity($"Migration operation {typeof(TContext).Name}");
 
@@ -51,7 +50,10 @@ internal static class MigrateDbContextExtensions
                     try
                     {
                         await context.Database.MigrateAsync(cancellationToken);
-                        await seeder(context, services);
+                        foreach (var seeder in seeders)
+                        {
+                            await seeder.SeedAsync(context);
+                        }
                     }
                     catch (Exception ex)
                     {
