@@ -15,6 +15,8 @@ public class SmartHomeContext : DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.ApplyConfiguration(new UserEnityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new BroadcastEntityTypeConfiguration());
 
